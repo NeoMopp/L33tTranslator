@@ -13,5 +13,5 @@ Translates a string into l33tspeak
 - passwordgeneration
 
 #Nice to have
--  a menu bar addin for macos
+- a menu bar addin for macos (might require moving to swift :sob:)
 - run in a lambda on aws?
