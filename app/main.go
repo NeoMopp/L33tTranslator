@@ -41,7 +41,11 @@ func main() {
     translator := csvRecordsToMap(recs)
     result := ""
     for _, c := range input {
-        result = result+translator[string(c)]
+        if len(translator[string(c)]) > 0 {
+            result = result + translator[string(c)]
+        } else {
+            result = result + string(c)
+        }
     }
 
     fmt.Println(result)
