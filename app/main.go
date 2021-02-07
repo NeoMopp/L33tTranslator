@@ -8,6 +8,18 @@ import (
 	"os"
 )
 
+type Operation string
+
+const (
+    Leet Operation = "l33t"
+    Md5 Operation = "md5"
+    Md4 Operation = "md4"
+    Sha1 Operation = "sha1"
+    Sha256 Operation = "sha256"
+    Sha384 Operation = "sha384"
+    Sha512 Operation = "sha512"
+)
+
 func readCsv(filePath string) [][]string {
 	f, err := os.Open(filePath)
 	if err != nil {
@@ -32,16 +44,34 @@ func csvRecordsToMap(records [][]string) map[string]string {
 	return m
 }
 
-func parseArguments() (word string, operation string) {
+func parseArguments() (word string, operation Operation) {
 	wordPtr := flag.String("word", "foo", "the string you want converted")
-	operationPtr := flag.String("operation", "l33t", "the operation you want to perform on the string")
+	operationPtr := flag.String("operation", "default", "the operation you want to perform on the string")
 	flag.Parse()
 	//Can't ever be null as far as I can tell
-	return *wordPtr, *operationPtr
+	return *wordPtr, Operation(*operationPtr)
 }
 
 func main() {
 	word, operation := parseArguments()
+
+	fmt.Println(operation)
+
+    //Is there a better way of doing this? Returning the enum before?
+    switch operation {
+    case Leet:
+        fmt.Println(Leet)
+    case Md5:
+        fmt.Println(Md5)
+    case Md4:
+    case Sha1:
+    case Sha256:
+    case Sha384:
+    case Sha512:
+    default:
+        fmt.Println("Not a valid Operation: " + operation)
+    }
+
 
 	recs := readCsv("matrix/l33t.csv")
 
@@ -56,5 +86,4 @@ func main() {
 	}
 
 	fmt.Println(result)
-	fmt.Println(operation)
 }
