@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func readCsv(filePath string) [][]string {
+func ReadCsv(filePath string) [][]string {
 	f, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal("Unable to read input file "+filePath, err)
@@ -22,7 +22,7 @@ func readCsv(filePath string) [][]string {
 	return records
 }
 
-func csvRecordsToMap(records [][]string) map[string]string {
+func CsvRecordsToMap(records [][]string) map[string]string {
 	m := make(map[string]string)
 	for i := 0; i < len(records); i += 1 {
 		m[records[i][0]] = records[i][1]
@@ -30,10 +30,10 @@ func csvRecordsToMap(records [][]string) map[string]string {
 	return m
 }
 
-func leetHash(input string) string {
-	recs := readCsv("matrix/l33t.csv")
+func LeetHash(input string) string {
+	recs := ReadCsv("matrix/l33t.csv")
 
-	translator := csvRecordsToMap(recs)
+	translator := CsvRecordsToMap(recs)
 	var result string
 	for _, c := range input {
 		if len(translator[string(c)]) > 0 {

@@ -32,7 +32,7 @@ func main() {
 
     switch operation {
     case Leet:
-		result = leetHash(word)
+		result = LeetHash(word)
     case Md5:
 		result = md5Hash(word)
     case Md4:
