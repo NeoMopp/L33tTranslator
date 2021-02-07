@@ -1,11 +1,8 @@
 package main
 
 import (
-	"encoding/csv"
 	"flag"
 	"fmt"
-	"log"
-	"os"
 )
 
 type Operation string
@@ -20,30 +17,6 @@ const (
     Sha512 Operation = "sha512"
 )
 
-func readCsv(filePath string) [][]string {
-	f, err := os.Open(filePath)
-	if err != nil {
-		log.Fatal("Unable to read input file "+filePath, err)
-	}
-	defer f.Close()
-
-	csvReader := csv.NewReader(f)
-	records, err := csvReader.ReadAll()
-	if err != nil {
-		log.Fatal("Unable to parse file as CSV for "+filePath, err)
-	}
-
-	return records
-}
-
-func csvRecordsToMap(records [][]string) map[string]string {
-	m := make(map[string]string)
-	for i := 0; i < len(records); i += 1 {
-		m[records[i][0]] = records[i][1]
-	}
-	return m
-}
-
 func parseArguments() (word string, operation Operation) {
 	wordPtr := flag.String("word", "foo", "the string you want converted")
 	operationPtr := flag.String("operation", "default", "the operation you want to perform on the string")
@@ -55,35 +28,27 @@ func parseArguments() (word string, operation Operation) {
 func main() {
 	word, operation := parseArguments()
 
-	fmt.Println(operation)
+	var result string
 
-    //Is there a better way of doing this? Returning the enum before?
     switch operation {
     case Leet:
-        fmt.Println(Leet)
+		result = leetHash(word)
     case Md5:
-        fmt.Println(Md5)
+		result = md5Hash(word)
     case Md4:
+		result = md4Hash(word)
     case Sha1:
+		result = sha1Hash(word)
     case Sha256:
+		result = sha256Hash(word)
     case Sha384:
+		result = sha384Hash(word)
     case Sha512:
+		result = sha512Hash(word)
     default:
-        fmt.Println("Not a valid Operation: " + operation)
+		result = string("Not a valid Operation: " + operation)
     }
 
+    fmt.Println(result)
 
-	recs := readCsv("matrix/l33t.csv")
-
-	translator := csvRecordsToMap(recs)
-	result := ""
-	for _, c := range word {
-		if len(translator[string(c)]) > 0 {
-			result = result + translator[string(c)]
-		} else {
-			result = result + string(c)
-		}
-	}
-
-	fmt.Println(result)
 }
